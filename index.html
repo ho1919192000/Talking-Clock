@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Talking Clock</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="">
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script>
+        $(document).ready(function() {
+            const HOUTS = [
+                'tweleve',
+                'one',
+                'two',
+                'three',
+                'four',
+                'five',
+                'six',
+                'seven',
+                'eight',
+                'nine',
+                'ten',
+                'eleven'
+            ]
+
+            const ONES = [
+                '',
+                'one',
+                'two',
+                'three',
+                'four',
+                'five',
+                'six',
+                'seven',
+                'eight',
+                'nine'
+            ]
+            const TEENS = [
+                'ten',
+                'eleven',
+                'tweleve',
+                'thirteen',
+                'fourteen',
+                'fifteen',
+                'sixteen',
+                'seventeen',
+                'eighteen',
+                'nineteen'
+            ]
+
+            const TENS = [
+                '',
+                '',
+                'twenty',
+                'thirty',
+                'fourty',
+                'fifty'
+            ]
+
+
+            var myVar = setInterval(myTimer, 1000);
+
+            function myTimer() {
+                var d = new Date();
+                $("#s").html(d.toLocaleTimeString());
+                var time = `${d.getHours()}:${d.getMinutes()}`;
+                $("#z").html(talk(time));
+            }
+
+            function talk(time) {
+                const [h, m] = time.split(':').map(n => parseInt(n));
+                const hour = HOUTS[h % 12];
+                const suffix = (h < 12) ? 'am' : 'pm';
+
+                let minute = '';
+                if (m < 10) {
+                    minute = `oh ${ONES[m]}`; //Template literals
+                } else if (m < 20) {
+                    minute = `${TEENS[m % 10]}`;
+                } else {
+                    minute = `${TENS[Math.floor(m / 10)]} ${ONES[m % 10]}`
+                }
+                return ["It's", hour, minute, suffix].join(' ');
+            }
+
+        })
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h2>
+        <div id="s"></div>
+    </h2>
+    <h2>
+        <div id="z"></div>
+    </h2>
+    <ol>
+        <li>Print Hour</li>
+        <li>Print Minute</li>
+        <li>Print AM/PM</li>
+    </ol>
+
+</div>
+
+</body>
+
+</html>
